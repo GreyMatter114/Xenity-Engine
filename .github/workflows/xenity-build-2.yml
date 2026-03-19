@@ -1,4 +1,4 @@
-name: Build Xenity Engine (CMake)
+name: Build Xenity Engine using Cmake
 
 on:
   push:
