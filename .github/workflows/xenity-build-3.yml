@@ -3,34 +3,34 @@ name: Build Xenity Engine
 on:
   push:
     branches: [ main ]
-  pull_request:
 
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout repo
+    - name: Checkout repo (with submodules)
       uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: List solution files
+      run: dir *.sln
 
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v2
 
-    - name: Setup NuGet
-      uses: NuGet/setup-nuget@v2
-
-    - name: Restore dependencies
+    - name: Restore NuGet
       run: nuget restore Xenity_Engine.sln
 
-    - name: Build Engine + Editor
-      run: msbuild Xenity_Engine.sln /p:Configuration=Release /p:Platform=x64
+    - name: Build (Verbose)
+      run: msbuild Xenity_Engine.sln /p:Configuration=Release /p:Platform=Win32 /v:detailed
 
-    - name: Find build output
+    - name: Find EXE
       run: dir /s /b *.exe
 
     - name: Zip Output
-      run: |
-        powershell Compress-Archive -Path **\Release\* -DestinationPath xenity_build.zip
+      run: powershell Compress-Archive -Path **\Release\* -DestinationPath xenity_build.zip
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
