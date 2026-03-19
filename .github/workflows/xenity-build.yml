@@ -18,7 +18,7 @@ jobs:
       uses: microsoft/setup-msbuild@v2
 
     - name: Build Editor
-      run: msbuild Xenity_Engibe.sln /p:Configuration="Release Editor" /p:Platform=x64 /v:minimal
+      run: msbuild Xenity_Engine.sln /p:Configuration="Release Editor" /p:Platform=x64 /v:minimal
 
     - name: Find EXE
       run: dir /s /b *.exe
