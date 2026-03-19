@@ -21,7 +21,7 @@ jobs:
       run: msbuild Xenity_Engine.sln /p:Configuration="Release Editor" /p:Platform=x64 /v:minimal
 
     - name: Find EXE
-      run: dir /s /b *.exe
+      run: Get-ChildItem -Recurse -Filter *.exe
 
     - name: Zip Output
       run: powershell Compress-Archive -Path **\Release* -DestinationPath xenity_build.zip
