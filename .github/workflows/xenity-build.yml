@@ -1,0 +1,30 @@
+name: Build Xenity Engine
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Restore NuGet (if needed)
+      run: nuget restore Xenity_Engine.sln
+
+    - name: Build Engine
+      run: msbuild Xenity_Engine.sln /p:Configuration=Release
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: xenity-editor
+        path: |
+          **/Release/
